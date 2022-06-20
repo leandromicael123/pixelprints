@@ -1,0 +1,347 @@
+:root {
+  --prettywhite: #ffffff2b;
+  --font-white: "Open Sans", sans-serif;
+  --transp-input-white: rgba(255, 255, 255, 0.644);
+}
+* {
+  font-family: var(--font-white);
+  font-weight: bold;
+  color: white;
+}
+.folha_de_obra {
+  margin-top: 20rem;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background: #1d20f1e0;
+  color: white;
+  font-family: "Open Sans", sans-serif;
+  font-weight: bold;
+}
+.Titulo_obra {
+  font-size: 2rem;
+  padding-top: 2rem;
+}
+input.em {
+  color: black;
+}
+.submitobra {
+  border: 0;
+  /* background: yellow; */
+  background-color: #f1ac1d;
+  width: 9rem;
+  height: 2rem;
+  border-radius: 20px;
+  cursor: pointer;
+}
+select.nivel {
+  background-color: #f1ac1d;
+  width: 7rem;
+  outline: none;
+}
+.solos {
+  width: 100%;
+  height: 19rem;
+
+  background: red;
+  margin-top: 12rem;
+}
+.flex {
+  display: flex;
+  gap: 3rem;
+
+  margin-bottom: 2rem;
+}
+@keyframes coolanimation {
+}
+.parts_obra {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  font-size: 1rem;
+  padding-bottom: 5rem;
+}
+.flex_radio_ind {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+.radio_flex {
+  display: flex;
+  gap: 2rem;
+  margin-top: 1rem;
+  margin-bottom: 3rem;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+.subtitulo_obra {
+  margin-top: 1rem;
+  font-size: 1.2rem;
+  color: #ffffff99;
+  margin-bottom: 1rem;
+}
+.parts_obra {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  font-size: 1rem;
+  width: 39rem;
+}
+.userdata {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem 0rem;
+  justify-content: center;
+  display: none;
+  align-content: center;
+  background: #e4398cc7;
+  border-radius: 13px;
+  margin-bottom: 1rem;
+}
+.flex_userdata_group {
+  display: flex;
+  gap: 2rem;
+}
+.userdata_group {
+  width: 16rem;
+  position: relative;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.userdata_group > input {
+  position: absolute;
+  right: 0;
+  background: var(--prettywhite);
+  color: white;
+  font-family: "Open Sans", sans-serif;
+  outline: none;
+  font-weight: bold;
+  width: 11rem;
+  height: 1.5rem;
+  border: none;
+  border-bottom: 3px solid #00000045;
+}
+.userdata_group > label {
+  /* width: 16rem !important; */
+  position: absolute;
+  /* height: 3rem; */
+  left: 0rem;
+  width: 4rem;
+  min-width: 4rem;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.input_appeareance {
+  background: var(--prettywhite);
+  color: white;
+  font-family: "Open Sans", sans-serif;
+  outline: none;
+  font-weight: bold;
+  width: 11rem;
+  height: 1.5rem;
+  border: none;
+  border-bottom: 3px solid #00000045;
+}
+.cross.obra {
+  transform: none !important;
+}
+.flex-approv {
+  display: flex;
+  min-width: 6rem;
+  flex-direction: column;
+  /*gap: 1rem;
+  */
+  gap: 1.5rem;
+  width: fit-content;
+  align-items: center;
+  border: 1px solid black;
+  transition: transform, background-color 300ms ease;
+  -webkit-transition: transform, background-color 300ms ease;
+  -moz-transition: transform, background-color 300ms ease;
+  -ms-transition: transform, background-color 300ms ease;
+  -o-transition: transform, background-color 300ms ease;
+}
+.flex-approv:hover {
+  background-color: purple;
+  cursor: pointer;
+}
+.flex-approv:hover .text-appro {
+  transform: scale(1.2);
+  -webkit-transform: scale(1.2);
+  -moz-transform: scale(1.2);
+  -ms-transform: scale(1.2);
+  -o-transform: scale(1.2);
+}
+.aprovalref {
+  border: 1px solid black;
+  height: 4.6rem;
+  /* padding: 0.2rem 16rem; */
+  /* gap: 1rem; */
+  display: flex;
+  width: fit-content;
+  margin-bottom: 2rem;
+  /* padding: 0.3rem 0.3rem; */
+}
+.searchbox {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+}
+.flex-approv {
+  background-color: red;
+}
+.selected {
+  background-color: green !important;
+}
+.folha_de_obra-div {
+  position: absolute;
+  right: 0;
+  background: var(--prettywhite);
+  color: white;
+  font-family: "Open Sans", sans-serif;
+  outline: none;
+  font-weight: bold;
+  width: 11rem;
+  height: 1.5rem;
+  border: none;
+  border-bottom: 3px solid #00000045;
+}
+.full-size {
+  grid-column: 1 / -1;
+}
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(16rem, auto));
+  grid-template-rows: repeat(5, auto);
+  row-gap: 3rem;
+  text-align: center;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+.label-row {
+  color: #f1ac1d;
+}
+.grid-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.text-center {
+  text-align: center;
+}
+.selected:hover {
+  background-color: purple !important;
+}
+.flex-approv .cross {
+  cursor: pointer;
+}
+input::placeholder {
+  color: rgba(255, 255, 255, 0.644);
+  font-family: "Open Sans", sans-serif;
+  outline: none;
+  font-weight: bold;
+}
+.idcode {
+  width: 21rem;
+}
+.userdata_bg {
+  display: flex;
+  height: 14rem;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  justify-content: center;
+}
+.table-data {
+  overflow: scroll;
+  width: 90%;
+  margin: 2rem 1rem;
+  height: fit-content;
+  border: 3px solid white;
+  /* min-height: 7rem; */
+  height: 20rem;
+  border-radius: 18px;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.table-data::-webkit-scrollbar {
+  overflow-x: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.table-data::-webkit-scrollbar-corner {
+  background-color: transparent;
+}
+.table-data td,
+th {
+  min-width: 11rem;
+  text-align: center;
+}
+.table-data td {
+  cursor: pointer;
+}
+.table-data tbody tr:hover {
+  background-color: #f83dd3;
+}
+.table-data tr {
+  height: 3rem;
+}
+.txtobra {
+  background: var(--prettywhite);
+  border: none;
+  outline: none;
+  width: 90%;
+  color: white;
+  font-family: var(--font-white);
+  font-size: 1rem;
+  height: 11rem;
+  margin-bottom: 1rem;
+  resize: vertical;
+  color: white;
+}
+.txtobra::placeholder {
+  font-size: 1rem;
+  font-family: var(--font-white);
+  color: var(--transp-input-white);
+}
+.flex-mont {
+  display: flex;
+  gap: 1rem;
+}
+.flex-mont > input {
+  width: 13rem;
+  height: 1.5rem;
+  background: #ffffff26;
+  border: none;
+  outline: none;
+  background: var(--prettywhite);
+  color: white;
+  font-family: var(--font-white);
+  font-size: 1rem;
+  resize: none;
+}
+
+select.category {
+  background: var(--prettywhite);
+  font-family: "Open Sans", sans-serif;
+  font-weight: bold;
+}
+select.category option {
+  background: #b9359f;
+  font-family: "Open Sans", sans-serif;
+  font-weight: bold;
+}
