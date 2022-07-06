@@ -15,7 +15,7 @@ $mail->SMTPSecure = "tls";
 $mail->Port       = 587;
 $mail->Host       = "smtp.gmail.com";
 $mail->Username   = "botj6883@gmail.com";
- 
+//$mail->SMTPDebug  = 2; 
 $mail->Password   = "rddmpvzbxnlfjinm";
 $mail->IsHTML(true);
 $mail->SetLanguage("pt", 'class/phpMailer/language/');

@@ -2,6 +2,8 @@
    error_reporting(0);
 include ("../databasestart.php");
 include ("getusersobra.php");
+include ("../sendmailexample.php");
+
 $request = $_POST["request"];
 if(isset($request)==false)
 {
@@ -27,7 +29,6 @@ echo niveluseruser();
   $text = $_POST["text"];
   $select = $_POST["select"];
   $intr = $_POST["intr"];
-
   echo searchfolha($text,$select,$intr,$_POST["gotic"]);
         break;
         case "folhaobraabs":
@@ -43,7 +44,7 @@ echo niveluseruser();
                                    echo Aprovarfolha( $_POST["codid"],$_POST["req"]);
                                     break;
                                     case "updatestatus":
-                                    echo updatestatus($_POST["codid"],$_POST["nivel"],$_POST["edit_array"],$_POST["edit"]);
+                                    echo updatestatus($_POST["codid"],$_POST["nivel"],$_POST["edit_quest"],$_POST["edit"]);
                                     break;
                                     case "criar dados":
                                       echo createdata($_POST["dados"]);

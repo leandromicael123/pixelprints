@@ -213,7 +213,6 @@ if(!$Query)
 
     include ("../databasestart.php");
     $status = $_SESSION["Nivel"];
-
    $fields = $select[0] === "user" ? json_decode(getallfields("utilizador_non_log"))[$select[1]]: json_decode(getallfields("folha de obra"))[$select[1]];
     $nivel = isset($nivel)?( $nivel === "0" ? "SELECT * FROM `utilizador_bd` WHERE $fields LIKE
      '%$text%';SELECT * FROM `utilizador_non_log` WHERE $fields LIKE '%$text%'" : ($nivel === "2"?"SELECT * FROM `utilizador_bd` WHERE $fields LIKE
@@ -269,7 +268,6 @@ if($query1)
 
 array_splice( $Resultado[$i], 4, 0,$description[$i] );
 }}
-
     return json_encode($Resultado);
 }           
 function nivelfolha($cod)
@@ -352,17 +350,20 @@ if ($conexao->query($sql) === TRUE) {
   }
 }
 
-function updatestatus($codid,$status,$editquest,$edit)
+function updatestatus($codfolha,$status,$editquest,$edit)
     {
+    
         include ("../databasestart.php");
-        $sql ="UPDATE `folha de obra` SET `Status` = '$status' WHERE `folha de obra`.`Codfolha` = '$codid'" ;
-        email($status,$codid);
-        if($editquest==1)
-        {
-            echo $edit;
-        }
-        return;
+        include ("../sendemailexample.php");
+        $sql ="UPDATE `folha de obra` SET `Status` = '$status' WHERE `folha de obra`.`Codfolha` = '$codfolha'" ;
         if ($conexao->query($sql) === TRUE) {
+            if($editquest==1)
+            {
+                $cod_id = isset($_SESSION["Cod_id"])==TRUE?$_SESSION["Cod_id"]:$_COOKIE["Cod_id"];
+                $Insert = "INSERT INTO `edicao`  (`Codedicao`, `Codfolha`, `Pedido_mens`, `Ficheirosloc`, `Budget_montagem`, `Custo_Montagem`,  `Pessoa_Montagem`, `Status`, `Coduser`, `Datatime`) VALUES (NULL, '$codfolha', '$edit[0]', '$edit[4]', '$edit[1]', '$edit[2]', '$edit[3]', '$status', '$cod_id', current_timestamp())";
+                 $conexao->query($Insert);
+            }
+            email($status,$codfolha);
          return 1;
       } else {
         return $conexao->error;
@@ -370,7 +371,7 @@ function updatestatus($codid,$status,$editquest,$edit)
 }
 function email($status,$codid)
 {
-include("../sendemailexample.php");
+
 include ("../databasestart.php");
 $link ="http://localhost/Websitetrb/php/adminmenu.php?metodo=aprovar&codfolha=$codid";
 $select ="SELECT * FROM `folha de obra` WHERE `Codfolha` = '$codid'";
@@ -388,17 +389,24 @@ else{
     $field = "user_notlogin";
     $table = "utilizador_non_log";
 }
-$selectclientname = "SELECT * FROM `folha de obra` LEFT JOIN `$table` ON `folha de obra`.`$field` = `$table`.`Cod_id` WHERE `$table`.`Cod_id` = '$codid'";
-return $selectclientname;
+$selectclientname = "SELECT * FROM `folha de obra` LEFT JOIN `$table` ON `folha de obra`.`$field` = `$table`.`Cod_id` WHERE `folha de obra`.`Codfolha` = '$codid'";
+$query = $conexao->query($selectclientname);
+while ($result = $query->fetch_array())
+{
+    $nomecliente = $result["Nome"];
+}
 $select = "SELECT * FROM `utilizador_bd` WHERE Nivel = '$status'";
 $query = $conexao->query($select);
 $titulo = "Folha de obra(aprovar) - $nomecliente";
 
 while ($result = $query->fetch_array())
 {
-    $conteudo = "<h1>Olá '".$Result["Nome"]."'<h1>, <br> o $status  tens de aprovar uma folha de obra do cliente $nomecliente . <br><a href=''";
+    
+    $conteudo = "<h1>Olá ".$result["Nome"].",<h1> <br>
+     Tens, como parte do $status de aprovar uma folha de obra do cliente $nomecliente . <br><a href='".$link."'>Folha de obra $codid</a>";
     $emailrecipiente =$result["Email"];
-    send_email($emailrecipiente,$titulo, $conteudo);
+ echo  send_email($emailrecipiente,$titulo, $conteudo);
 }
+
 }
    ?>

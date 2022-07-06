@@ -96,6 +96,7 @@ $(".userdata_bg input").css("text-align", "center")
 </html>
 <script>
 let users = function() {
+    const users_log = this;
     this.erros = function() {
         let errors = [];
         $(".userdata input:eq(0)").val() == "" ? errors.push("O nome tem de ser preenchido") : "";
@@ -198,8 +199,42 @@ let users = function() {
     }
 }
 this.search = function() {
+    $.ajax({
+        type: "POST",
+        url: "folhadeobra/do_folhadetrabalho.php",
+        dataType: "json",
+        data: {
+            request: "getfolhanivel",
+            text: $(".input_appeareance:eq(1)").val(),
+            select: $(".searchbox.user").length === 1 ? [
+                "user",
+                $(
+                    ".searchbox.user>.category.input_appeareance option:checked"
+                ).index(),
+            ] : [
+                "folha",
+                $(".category.input_appeareance option:checked").index(),
+            ],
+            intr: $("input[name='same']:checked").val(),
+        },
+        success: function(html) {
+            $("tbody").html("");
+            $(html).each(function(index) {
+                $("tbody").append("<tr></tr>");
 
-}
+                this.map(function(obj, index) {
+                    $("tbody>tr:last-child").append(
+                        "<td class='border-right-bottom-top'>" + obj + "</td>"
+                    );
+                });
+                var current = this;
+                $("tbody>tr:last-child").click(function() {
+
+                });
+            });
+        },
+    });
+};
 const dados = new users;
 $(".userdata input:eq(4)").mask("000 000 000");
 $(".userdata input:eq(3)").mask("000 000 000");
