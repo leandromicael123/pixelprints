@@ -12,7 +12,7 @@
         echo "<div class='email_enviado'> Tente outra vez - email incorreto  <br> <h4><a href='Index.php'>inicio</a></h4></div>";
       }
       if($resultado == 2)
-      {
+      { 
         echo "<div class='email_enviado'> Password modificada <br> <h4><a href='login.php'>login</a></h4></div>";
       }
       ?>

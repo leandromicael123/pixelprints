@@ -1,8 +1,12 @@
 <?php
+   error_reporting(0);
 include ("../databasestart.php");
 include ("getusersobra.php");
 $request = $_POST["request"];
-
+if(isset($request)==false)
+{
+    exit;
+}
 switch ($request)
 {
     case "column":
@@ -19,6 +23,30 @@ echo niveluseruser();
    case "create":
     echo createuser($_POST["tipodeuser"],$_POST["userdata"],$_POST["description"],$_POST["mont"],$_POST["loc"],$_POST["approv"],$_POST["status"]);
     break;
-       
+    case "getfolhanivel":
+  $text = $_POST["text"];
+  $select = $_POST["select"];
+  $intr = $_POST["intr"];
+
+  echo searchfolha($text,$select,$intr,$_POST["gotic"]);
+        break;
+        case "folhaobraabs":
+            $codid = $_POST["codid"];
+            $field = $_POST["field"]==="user"?0:1;
+            echo detailedobrasuser($field,$codid);
+                  break;
+                          case "getnivelfolha":
+                            $codid = $_POST["codid"];
+                            echo nivelfolha($codid);
+                                  break;
+                                  case "approvfolha":
+                                   echo Aprovarfolha( $_POST["codid"],$_POST["req"]);
+                                    break;
+                                    case "updatestatus":
+                                    echo updatestatus($_POST["codid"],$_POST["nivel"],$_POST["edit_array"],$_POST["edit"]);
+                                    break;
+                                    case "criar dados":
+                                      echo createdata($_POST["dados"]);
+                                        break;
 }
 ?>
