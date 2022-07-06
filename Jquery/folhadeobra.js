@@ -8,8 +8,7 @@ $.ajax({
     request: requesttype,
   },
   success: function (html) {
-    html.splice(5, 1);
-    html.splice(0, 1);
+    console.log(html);
     $(html).each(function () {
       $(".aprovalref").append(
         ' <div class="flex-approv"><div class="text-appro">' +
@@ -54,7 +53,7 @@ $(".radio_data").click(function () {
     $(".userdata input:eq(1)").mask("000000000");
   } else {
     $(".radio_flex").after(
-      '<div class="userdata" id="2"> <div class="searchbox "> <select class="category input_appeareance"></select> <input type="text" class="input_appeareance" name="search" placeholder="Pesquisa aqui"></div> <div class="table-data"> <table> <thead><tr>  <th>Tipo de data</th> <th>Código de utilizador</th><th>Nome</th> <th>Email</th> <th>NIF</th> <th>Telefone</th> <th>Pessoa-contacto</th><th>Morada</th> <th>Codigo postal</th> <th>Tipocliente</th> <th>Nome da empresa</th> <th>Nivel</th> <th>Data de entrada</th> </tr></thead><tbody> </tbody></table></div> <div class="userdata_bg"><div class="flex_userdata_group"><div class="userdata_group"><label for="">Tipo de data</label> <input type="text" name="Codigo" readonly></div><div class="userdata_group"><label for="">Codigo de utilizador</label> <input type="text" name="nome" readonly></div></div> <div class="flex_userdata_group"> <div class="userdata_group"> <label for="">Nome</label> <input type="text" name="nome" readonly></div> <div class="userdata_group"> <label for="">Email</label> <input type="text" name="nif" readonly></div> </div> <div class="flex_userdata_group"> <div class="userdata_group"> <label for="">NIF</label> <input type="text" name="Email" readonly></div> <div class="userdata_group"> <label for="">Contactos</label> <input type="text" name="Contacto" readonly></div> </div> </div>'
+      '<div class="userdata" id="2"> <div class="searchbox "> <select class="category input_appeareance"></select> <input type="text" class="input_appeareance" name="search" placeholder="Pesquisa aqui"></div> <div class="table-data"> <table style="border-collapse:collapse"> <thead><tr>  <th>Tipo de data</th> <th>Código de utilizador</th><th>Nome</th> <th>Email</th> <th>NIF</th> <th>Telefone</th> <th>Pessoa-contacto</th><th>Morada</th> <th>Codigo postal</th> <th>Tipocliente</th> <th>Nome da empresa</th> <th>Nivel</th> <th>Data de entrada</th> </tr></thead><tbody> </tbody></table></div> <div class="userdata_bg"><div class="flex_userdata_group"><div class="userdata_group"><label for="">Tipo de data</label> <input type="text" name="Codigo" readonly></div><div class="userdata_group"><label for="">Codigo de utilizador</label> <input type="text" name="nome" readonly></div></div> <div class="flex_userdata_group"> <div class="userdata_group"> <label for="">Nome</label> <input type="text" name="nome" readonly></div> <div class="userdata_group"> <label for="">Email</label> <input type="text" name="nif" readonly></div> </div> <div class="flex_userdata_group"> <div class="userdata_group"> <label for="">NIF</label> <input type="text" name="Email" readonly></div> <div class="userdata_group"> <label for="">Contactos</label> <input type="text" name="Contacto" readonly></div> </div> </div>'
     );
     $(".userdata input:eq(6)").mask("000 000 000");
     requesttype = "column";
@@ -116,7 +115,9 @@ function table() {
       $(html).each(function (index) {
         $(html[index]).each(function (index) {
           $("tbody>tr:last-child").append(
-            "<td>" + JSON.stringify(this).replace(/\"/g, "") + "</td></tr>"
+            "<td class='border-right-bottom-top'>" +
+              JSON.stringify(this).replace(/\"/g, "") +
+              "</td></tr>"
           );
         });
         $("tbody").append("<tr></tr>");
@@ -291,7 +292,6 @@ $(".submitobra").click(function () {
     $.ajax({
       type: "POST",
       url: "folhadeobra/do_folhadetrabalho.php",
-
       data: {
         request: requesttype,
         tipodeuser: tipodeuser,
@@ -303,7 +303,8 @@ $(".submitobra").click(function () {
         status: selectedstatus,
       },
       success: function (html) {
-        $("body").append(html);
+        console.log(html);
+        $(".folha_de_obra").append(html);
       },
     });
   }

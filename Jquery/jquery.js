@@ -1,3 +1,13 @@
+$(".link:eq(7)").click(function () {
+  if ($(".totalbtn").css("opacity") == 1)
+    $(".totalbtn").animate({ opacity: 0 }, 300);
+  else if ($(".totalbtn").css("opacity") == 0) {
+    $(".totalbtn").animate({ opacity: 1 }, 300);
+  }
+});
+$(document).on("keydown", "form", function (event) {
+  return event.key != "Enter";
+});
 $(window).load(function () {
   $(".loader").fadeOut("slow");
 });
@@ -16,13 +26,6 @@ $(function () {
         .getElementsByClassName("input_resale date")[0]
         .setAttribute("type", "date");
     });
-  $(".link:eq(7)").click(function () {
-    if ($(".totalbtn").css("opacity") == 1)
-      $(".totalbtn").animate({ opacity: 0 }, 300);
-    else if ($(".totalbtn").css("opacity") == 0) {
-      $(".totalbtn").animate({ opacity: 1 }, 300);
-    }
-  });
 });
 const tempodeintervaloslider1 = 7000;
 var currentslide1;

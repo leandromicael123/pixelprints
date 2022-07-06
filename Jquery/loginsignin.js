@@ -1,6 +1,13 @@
 $(window).load(function () {
   $(".loader").fadeOut("slow");
 });
+$("#formid").on("keyup keyp", function (e) {
+  var keyCode = e.keyCode || e.which;
+  if (keyCode === 13) {
+    e.preventDefault();
+    return false;
+  }
+});
 $(window).on("load", function () {
   $(".reg-classe:eq(3)").mask("0000-000");
   $(".btn-enviar.btn-envem.login").off();
