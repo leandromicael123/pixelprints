@@ -2,12 +2,14 @@
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-<meta name="keywords" content="Cartões de visita, estampagem, decoração de viaturas, flyers, grafica, brindes, publiccidade, impressão, presentes personalizados, canetas personalizadas">
+    <meta name="keywords"
+        content="Cartões de visita, estampagem, decoração de viaturas, flyers, grafica, brindes, publiccidade, impressão, presentes personalizados, canetas personalizadas">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="author" content="Leandro Bernardo">
-  <meta name="description" content="Somos o seu parceiro de publicidade que transforma qualquer
+    <meta name="description" content="Somos o seu parceiro de publicidade que transforma qualquer
 ideia em realidade através de todo o tipo de impressões, decoração de
 lojas, viaturas e brindes">
     <meta name="viewport" content="width=device-width, initial-scale=1.0  user-scalable=no">
@@ -16,33 +18,35 @@ lojas, viaturas e brindes">
     <script src="https://www.paypal.com/sdk/js?client-id=YOUR_CLIENT_ID"></script>
     <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="../css/nav.css">
-<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/color.css">
     <link rel="stylesheet" href="../css/general.css">
-    <link rel="stylesheet" href="../css/responsive.css"><script src="jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="../css/responsive.css">
+    <script src="jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="../css/loginsignin.css">
     <link rel="stylesheet" href="../css/folhadeobra.css">
-    
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-  <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 </head>
+
 <body>
-<div class='overflow_mobile'>
-<div class="loader">
-</div>
-<div class="navbar_black">
-  <div class="cross" ><span></span><span></span></div>
-   
-<div class="link">INICIO</div>
-        <div class="link">QUEM SOMOS?</div>
-        <div class="link">SERVIÇOS</div>
-        <div class="link"><a href="">LOJA</a></div>
-        <div class="link">REVENDA</div>
-        <div class="link">PORTEFÓLIO</div>
-        <div class="link">CONTACTOS</div>
+    <div class='overflow_mobile'>
+        <div class="loader">
+        </div>
+        <div class="navbar_black">
+            <div class="cross"><span></span><span></span></div>
+
+            <div class="link">INICIO</div>
+            <div class="link">QUEM SOMOS?</div>
+            <div class="link">SERVIÇOS</div>
+            <div class="link"><a href="">LOJA</a></div>
+            <div class="link">REVENDA</div>
+            <div class="link">PORTEFÓLIO</div>
+            <div class="link">CONTACTOS</div>
 
             <?php if($_SESSION["session"]== true)
         {
@@ -57,21 +61,34 @@ lojas, viaturas e brindes">
         else{
         echo "<a href='login.php' class='log_in link'><img class='icon ' src='../img/icons/icon-person.png' alt=''>LOGIN/SIGN UP</a>";}
       ?>
-</div>
-<div class="bars logo" >
-</div>
+        </div>
+        <div class="bars logo">
+        </div>
 
-    <div class="navbar bg_white">
-     
-        <div class="links"><div class='logo'></div></div>
-        <div class="links"><div class="text-link">QUEM SOMOS?</div></div>
-        <div class="links"><div class="text-link">SERVIÇOS</div></div>
-        <div class="links"><a href="">LOJA</a></div>
-        <div class="links"><div class="text-link">REVENDA</div></div>
-        <div class="links"><div class="text-link">PORTEFÓLIO</div></div>
-        <div class="links"><div class="text-link">CONTACTOS</div></div>
-       
-        <div class="links img"><div class="text-link "><?php if($_SESSION["session"]== true)
+        <div class="navbar bg_white">
+
+            <div class="links">
+                <div class='logo'></div>
+            </div>
+            <div class="links">
+                <div class="text-link">QUEM SOMOS?</div>
+            </div>
+            <div class="links">
+                <div class="text-link">SERVIÇOS</div>
+            </div>
+            <div class="links"><a href="">LOJA</a></div>
+            <div class="links">
+                <div class="text-link">REVENDA</div>
+            </div>
+            <div class="links">
+                <div class="text-link">PORTEFÓLIO</div>
+            </div>
+            <div class="links">
+                <div class="text-link">CONTACTOS</div>
+            </div>
+
+            <div class="links img">
+                <div class="text-link "><?php if($_SESSION["session"]== true)
         {
             echo "<div class='text-username'>".$_SESSION["Email"]."</div>";
            
@@ -110,7 +127,8 @@ lojas, viaturas e brindes">
      </div>
      </div>';}
      ?>
-       
+
 
 </body>
+
 </html>

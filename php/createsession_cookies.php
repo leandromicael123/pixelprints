@@ -38,7 +38,9 @@ function get_session($Cod_id){
             $Telefone_pess = $Result["Telefone_pess"];
             $Datadeentrada = $Result["Datadeentrada"];
             $tipoconta = $Result["tipoconta"];
+            $nivel = $Result["Nivel"];
      }
+     $_SESSION["Nivel"] = $nivel;
      $_SESSION["Nome"] = $Nome;
      $_SESSION["Email"] = $Email;
      $_SESSION["session"] = true;
@@ -50,6 +52,8 @@ function get_session($Cod_id){
      $_SESSION["Telefone_pess"] = $Telefone_pess;
      $_SESSION["Datadeentrada"] = $Datadeentrada;
 
+}
+else{
 }}
 function login($email, $password, $sessao){
     include ("databasestart.php");

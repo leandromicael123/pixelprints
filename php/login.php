@@ -22,7 +22,15 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.0/jquery.mask.js"></script>
+<script>   $(".form_flex.login").on("keypress", function (event) {
 
+            var keyPressed = event.keyCode || event.which;
+            if (keyPressed === 13) {
+              console.log("aaya");
+                
+            }
+        });
+    </script> </script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js"></script><script src="../Jquery/loginsignin.js"></script>
 </body>
 </html>
