@@ -9,8 +9,30 @@ body {
   position: absolute;
   top: 0;
 }
+
 input.em {
   color: black;
+}
+.errorscreen {
+  width: 90%;
+
+  min-height: 2rem;
+  transform: translateY(-4px);
+  box-sizing: border-box;
+  padding-left: 1rem;
+  background: #f1ac1d;
+  display: none;
+  align-items: center;
+  /*color: #f23030;
+  */
+  border-radius: 20px;
+  -webkit-transform: translateY(-4px);
+  -moz-transform: translateY(-4px);
+  -ms-transform: translateY(-4px);
+  -o-transform: translateY(-4px);
+}
+.cartootxt {
+  transform: translate(-32px, 58px);
 }
 .white-line {
   height: 100%;
@@ -125,10 +147,17 @@ input.em {
   z-index: -1;
   background-color: white;
   transition: transform 300ms ease-in-out;
-
   transform: scaleX(0);
   transform-origin: center;
   border-radius: 1000px;
+  -webkit-border-radius: 1000px;
+  -moz-border-radius: 1000px;
+  -ms-border-radius: 1000px;
+  -o-border-radius: 1000px;
+  -webkit-transition: transform 300ms ease-in-out;
+  -moz-transition: transform 300ms ease-in-out;
+  -ms-transition: transform 300ms ease-in-out;
+  -o-transition: transform 300ms ease-in-out;
 }
 
 .bluebtn.white_none:hover::before {
@@ -824,6 +853,8 @@ input.em {
   width: 80%;
   row-gap: 1rem;
   column-gap: 5rem;
+  align-content: space-evenly;
+  justify-items: center;
   align-content: space-evenly;
 }
 .bleububble {
