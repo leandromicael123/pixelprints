@@ -88,7 +88,45 @@ function getallfields($table)
     while ($Result = MySQLi_fetch_array($Query)) { 
         array_push($collect,$Result["Field"]);
     }
+    if($table =="folha de obra")
+    {
+        $select = "SHOW COLUMNS FROM `edicao`";
+        $Query = MySQLi_query($conexao,  $select);  
+        $description = array();
+        while ($Result = MySQLi_fetch_array($Query)) { 
+            array_push($description,$Result["Field"]);
+        }
+//array_splice( $Resultado[$i], 4, 0
+      array_splice($description,0,2);
+    array_splice($description,5,3);
+    array_splice($collect,3,0,$description); }
+ 
     return json_encode($collect);
+}
+function userspesquisaespecifica($select,$text,$table)
+{
+    include ("../databasestart.php");
+    $table = $table==0?"utilizador_bd":"utilizador_non_log";
+    $select = "SELECT * FROM `$table` WHERE `$select` LIKE '%$text%' LIMIT 30";
+$i = 0;
+$query = $conexao->query($select);
+    while($Result = $query->fetch_array())
+{
+   
+$users[$i][] = $Result["Cod_id"];
+
+$users[$i][] = $Result["Nome"];
+
+$users[$i][] = $Result["Email"];
+
+$users[$i][] = $Result["NIF"];
+
+$users[$i][] = $Result["Telefone_pess"];
+
+$users[$i][] = $Result["Pessoa-contacto"];
+$i++;
+}
+return json_encode($users);
 }
 function niveluseruser()
 {
@@ -107,7 +145,7 @@ function niveluseruser()
     }
     return json_encode($collect);
 }
- function createuser($tipodedata,$datauser,$mensagem,$montagem,$localizacao,$aprovacao,$status)
+ function createuser($tipodedata,$datauser,$mensagem,$montagem,$localizacao,$aprovacao,$status,$comentario)
  {
     include ("../databasestart.php");
     $codid1 = isset($_SESSION["Cod_id"])==TRUE?$_SESSION["Cod_id"]:$_COOKIE["Cod_id"];
@@ -143,10 +181,15 @@ if(!$Query)
              {
 
                 $folhadeobranum = $conexao->insert_id;
-                $insertuser = "INSERT INTO `edicao` (`Codedicao`, `Codfolha`, `Status`, `Coduser`, `Datatime`) VALUES
-                  (NULL, '$folhadeobranum','$status','$codid1', current_timestamp())";
-              $Query = MySQLi_query($conexao,  $insertuser);  
+                $insertuser = "INSERT INTO `edicao` (`Codedicao`, `Codfolha`, `Pedido_mens`,
+                `Ficheirosloc`, `Budget_montagem`, `Custo_Montagem`,
+                `Pessoa_Montagem`, `Status`, `Coduser`, `Datatime`) VALUES
+                 (NULL, '$folhadeobranum', '$mensagem','$localizacao',
+                  '$montagem[0]', '$montagem[1]', '$montagem[2]', '$status','$codid1', current_timestamp())";
+            $Query = MySQLi_query($conexao,  $insertuser);  
+          
                 approval($aprovacao,$folhadeobranum);
+                email($status,$folhadeobranum,$comentario);
                 echo '<script>  var currentURL =
                 window.location.protocol +
                 "//" +
@@ -189,8 +232,10 @@ if(!$Query)
             `Pessoa_Montagem`, `Status`, `Coduser`, `Datatime`) VALUES
              (NULL, '$folhadeobranum', '$mensagem','$localizacao',
               '$montagem[0]', '$montagem[1]', '$montagem[2]', '$status','$codid1', current_timestamp())";
-         $Query = MySQLi_query($conexao,  $insertuser);  
+      $Query = MySQLi_query($conexao,  $insertuser); 
+         
             approval($aprovacao,$folhadeobranum);
+            email($status,$folhadeobranum,$comentario);
             echo '<script>  var currentURL =
                 window.location.protocol +
                 "//" +
@@ -214,15 +259,19 @@ if(!$Query)
     include ("../databasestart.php");
     $status = $_SESSION["Nivel"];
    $fields = $select[0] === "user" ? json_decode(getallfields("utilizador_non_log"))[$select[1]]: json_decode(getallfields("folha de obra"))[$select[1]];
-    $nivel = isset($nivel)?( $nivel === "0" ? "SELECT * FROM `utilizador_bd` WHERE $fields LIKE
-     '%$text%';SELECT * FROM `utilizador_non_log` WHERE $fields LIKE '%$text%'" : ($nivel === "2"?"SELECT * FROM `utilizador_bd` WHERE $fields LIKE
-     '%$text%'":"SELECT * FROM `utilizador_non_log` WHERE $fields LIKE '%$text%'")):"";
-  $query = $select[0] === "user" ? "SELECT * FROM `folha de obra` WHERE ": "SELECT * FROM `folha de obra` WHERE $fields LIKE '%$text%' AND `Status` = '$status'";
-if($gotic == 1)
+    $nivel = isset($nivel)?( $nivel === "0" ? "SELECT * FROM `utilizador_bd` WHERE `$fields` LIKE
+     '%$text%';SELECT * FROM `utilizador_non_log` WHERE `$fields` LIKE '%$text%'" : ($nivel === "2"?"SELECT * FROM `utilizador_bd` WHERE `$fields` LIKE
+     '%$text%'":"SELECT * FROM `utilizador_non_log` WHERE `$fields` LIKE '%$text%'")):"";
+  $query = $select[0] === "user" ? "SELECT * FROM `folha de obra` WHERE ": "SELECT * FROM `folha de obra` WHERE `$fields` LIKE '%$text%' AND `Status` = '$status'";
+  if($select[1]>=3 && $select[0] != "user")
+{
+    $Edicaoexcpt = "SELECT  Codfolha FROM `edicao` WHERE  `$fields` LIKE '%$text%'"; 
+    $query ="SELECT * FROM `folha de obra` WHERE `Status` = '$status' AND `Codfolha` IN ($Edicaoexcpt)";
+}
+  if($gotic == 1)
 {
     $query =  "SELECT * FROM `folha de obra` WHERE Codfolha ='$text' AND `Status` = '$status'";
-}
-   $conexao->multi_query( $select[0] === "user" ? $nivel:$query);
+}   $conexao->multi_query( $select[0] === "user" ? $nivel:$query);
     do {$typevalue=$select[0] === "user"?"utilizador":"admin"; 
         if ($result = $conexao->store_result()) {
             while ($row = $result->fetch_row()) {
@@ -243,19 +292,16 @@ if($gotic == 1)
         $queryact.="AND `Status` = '$status'";
         $query1 =  MySQLi_query($conexao, $queryact);
         while ($row = MySQLi_fetch_row($query1)) { 
-            
-            $queryact =count($result) === 6 ? array_splice( $row, 1, 0, "admin" ):array_splice( $row, 1, 0, "user" );
             $Resultado[] = $row;
+            
         }
-        
          
     } 
 }
-else
-{
+
     for($i=0;$i<=count($Resultado)-1;$i++)
     {
-        $Resultado[$i][1] === NULL ? array_splice( $Resultado[$i], 1, 0, "user" ):array_splice( $Resultado[$i], 1, 0, "admin" );;
+        $Resultado[$i][1] === NULL ? array_splice( $Resultado[$i], 1, 0, "user" ):array_splice( $Resultado[$i], 1, 0, "admin" );
 $selectdetails = "SELECT Pedido_mens,Ficheirosloc,Budget_montagem,Custo_Montagem,Pessoa_Montagem FROM `edicao` WHERE Codfolha='".$Resultado[$i][0]."' ORDER BY Codedicao  DESC LIMIT 1";
 $query1 = MySQLi_query($conexao,$selectdetails);
 if($query1)
@@ -267,7 +313,7 @@ if($query1)
 }
 
 array_splice( $Resultado[$i], 4, 0,$description[$i] );
-}}
+}
     return json_encode($Resultado);
 }           
 function nivelfolha($cod)
@@ -350,12 +396,13 @@ if ($conexao->query($sql) === TRUE) {
   }
 }
 
-function updatestatus($codfolha,$status,$editquest,$edit)
+function updatestatus($codfolha,$status,$editquest,$edit,$comentario)
     {
     
         include ("../databasestart.php");
         include ("../sendemailexample.php");
         $sql ="UPDATE `folha de obra` SET `Status` = '$status' WHERE `folha de obra`.`Codfolha` = '$codfolha'" ;
+    
         if ($conexao->query($sql) === TRUE) {
             if($editquest==1)
             {
@@ -363,13 +410,13 @@ function updatestatus($codfolha,$status,$editquest,$edit)
                 $Insert = "INSERT INTO `edicao`  (`Codedicao`, `Codfolha`, `Pedido_mens`, `Ficheirosloc`, `Budget_montagem`, `Custo_Montagem`,  `Pessoa_Montagem`, `Status`, `Coduser`, `Datatime`) VALUES (NULL, '$codfolha', '$edit[0]', '$edit[4]', '$edit[1]', '$edit[2]', '$edit[3]', '$status', '$cod_id', current_timestamp())";
                  $conexao->query($Insert);
             }
-            email($status,$codfolha);
+            email($status,$codfolha,$comentario);
          return 1;
       } else {
         return $conexao->error;
       }
 }
-function email($status,$codid)
+function email($status,$codid,$comentario)
 {
 
 include ("../databasestart.php");
@@ -403,8 +450,13 @@ while ($result = $query->fetch_array())
 {
     
     $conteudo = "<h1>Olá ".$result["Nome"].",<h1> <br>
-     Tens, como parte do $status de aprovar uma folha de obra do cliente $nomecliente . <br><a href='".$link."'>Folha de obra $codid</a>";
-    $emailrecipiente =$result["Email"];
+    <h2> Como parte do $status, tens de aprovar uma folha de obra do cliente $nomecliente . <br><a href='".$link."'>Folha de obra $codid</a>";
+   $conexao->query("INSERT INTO `comentarios` (`Codfolha`, `Comentario`, `Coduser`) VALUES ('', 'sadas', '59')");
+    $comentario =  trim($comentario)!=""?
+   " <br> Comentário de ".$_SESSION["Nome"].": <br> $comentario </h2>":"";
+   $conteudo.=$comentario;
+     $emailrecipiente =$result["Email"];
+
  echo  send_email($emailrecipiente,$titulo, $conteudo);
 }
 

@@ -23,7 +23,7 @@ echo obrasuser($select,$text);
 echo niveluseruser();
    break;
    case "create":
-    echo createuser($_POST["tipodeuser"],$_POST["userdata"],$_POST["description"],$_POST["mont"],$_POST["loc"],$_POST["approv"],$_POST["status"]);
+    echo createuser($_POST["tipodeuser"],$_POST["userdata"],$_POST["description"],$_POST["mont"],$_POST["loc"],$_POST["approv"],$_POST["status"],$_POST["comentario"]);
     break;
     case "getfolhanivel":
   $text = $_POST["text"];
@@ -44,10 +44,13 @@ echo niveluseruser();
                                    echo Aprovarfolha( $_POST["codid"],$_POST["req"]);
                                     break;
                                     case "updatestatus":
-                                    echo updatestatus($_POST["codid"],$_POST["nivel"],$_POST["edit_quest"],$_POST["edit"]);
+                                    echo updatestatus($_POST["codid"],$_POST["nivel"],$_POST["edit_quest"],$_POST["edit"],$_POST["comentario"]);
                                     break;
                                     case "criar dados":
                                       echo createdata($_POST["dados"]);
                                         break;
+                                        case "getuserespifico":
+                                          echo userspesquisaespecifica($_POST["select"],$_POST["text"],$_POST["tb"]);
+                                          break;
 }
 ?>
