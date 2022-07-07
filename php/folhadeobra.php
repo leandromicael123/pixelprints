@@ -55,6 +55,8 @@
             <div class="flex"><label for="">Enviar para</label>
                 <select name="" id="" class="nivel"></select>
             </div>
+            <div class="subtitulo_obra">Comentário</div>
+            <textarea name="" cols="10" class="txtobra" placeholder="Escrever aqui" rows="10"></textarea>
             <input type="submit" class='submitobra'>
         </div>
     </div>

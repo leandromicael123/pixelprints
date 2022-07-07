@@ -76,7 +76,7 @@ function getparameter(method) {
     switch (method) {
         case "criar":
             if (GetURLParameter("result") == "true") {
-                $(".big-col:eq(1)").addClass("Selected-big-col");
+                $(".big-col:eq(0)").addClass("Selected-big-col");
                 $.get("folhadeobra_result.php", {
                         cod: GetURLParameter("cod"),
                     },

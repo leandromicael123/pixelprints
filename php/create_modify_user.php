@@ -197,48 +197,42 @@ let users = function() {
         const checkDigit = modulo11 < 2 ? 0 : 11 - modulo11;
         return checkDigit === Number(nif[8]);
     }
+
+    this.search = function() {
+        $.ajax({
+            type: "POST",
+            url: "folhadeobra/do_folhadetrabalho.php",
+            dataType: "json",
+            data: {
+                request: "getfolhanivel",
+                text: $(".input_appeareance:eq(1)").val(),
+                select: $(".category.input_appeareance").val(),
+            },
+            success: function(html) {
+                $("tbody").html("");
+                $(html).each(function(index) {
+                    $("tbody").append("<tr></tr>");
+
+                    this.map(function(obj, index) {
+                        $("tbody>tr:last-child").append(
+                            "<td class='border-right-bottom-top'>" + obj +
+                            "</td>"
+                        );
+                    });
+                    var current = this;
+                    $("tbody>tr:last-child").click(function() {
+
+                    });
+                });
+            },
+        });
+    };
 }
-this.search = function() {
-    $.ajax({
-        type: "POST",
-        url: "folhadeobra/do_folhadetrabalho.php",
-        dataType: "json",
-        data: {
-            request: "getfolhanivel",
-            text: $(".input_appeareance:eq(1)").val(),
-            select: $(".searchbox.user").length === 1 ? [
-                "user",
-                $(
-                    ".searchbox.user>.category.input_appeareance option:checked"
-                ).index(),
-            ] : [
-                "folha",
-                $(".category.input_appeareance option:checked").index(),
-            ],
-            intr: $("input[name='same']:checked").val(),
-        },
-        success: function(html) {
-            $("tbody").html("");
-            $(html).each(function(index) {
-                $("tbody").append("<tr></tr>");
-
-                this.map(function(obj, index) {
-                    $("tbody>tr:last-child").append(
-                        "<td class='border-right-bottom-top'>" + obj + "</td>"
-                    );
-                });
-                var current = this;
-                $("tbody>tr:last-child").click(function() {
-
-                });
-            });
-        },
-    });
-};
 const dados = new users;
 $(".userdata input:eq(4)").mask("000 000 000");
 $(".userdata input:eq(3)").mask("000 000 000");
 $(".userdata input:eq(1)").mask("000000000");
+dados.search();
 $(".btn-criar").click(function() {
     dados.erros();
 })

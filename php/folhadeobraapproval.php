@@ -112,6 +112,8 @@
                 <select name="" id="" class="nivel"></select>
             </div>
             <div class="flex" style='align-items: center;'> <button class="btnaprovar">Não aprovado</button>
+                <textarea name="" cols="10" class="txtobra" placeholder="Escrever aqui" rows="10"></textarea>
+                <div class="subtitulo_obra">Comentário</div>
                 <input type="submit" class="submitobra">
             </div>
         </div>
