@@ -1,6 +1,9 @@
-.bg_white{
-    background: #cbcbcb85;
+.bg_white {
+  background: #cbcbcb85;
 }
-.bg_white-gray{
-    background: #cbcbcb85;
+.bg_white-gray {
+  background: #cbcbcb85;
+}
+.red {
+  background-color: red;
 }

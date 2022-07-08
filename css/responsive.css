@@ -558,6 +558,13 @@
     margin-bottom: 0 !important;
     width: 100%;
   }
+  .error_class {
+    transform: translate(12rem, -11.7rem) !important;
+    -webkit-transform: translate(12rem, -11.7rem) !important;
+    -moz-transform: translate(12rem, -11.7rem) !important;
+    -ms-transform: translate(12rem, -11.7rem) !important;
+    -o-transform: translate(12rem, -11.7rem) !important;
+  }
   .menu.signin {
     width: 100%;
     height: 100% !important;
