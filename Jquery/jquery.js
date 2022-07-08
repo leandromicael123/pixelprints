@@ -43,7 +43,7 @@ function invokeslideinfinite1() {
   }, tempodeintervaloslider1);
 }
 
-var tempodeintervaloslider2 = 7000;
+var tempodeintervaloslider2 = 15000;
 var sliderinfinite2;
 function invokeslideinfinite2() {
   sliderinfinite2 = setInterval(() => {

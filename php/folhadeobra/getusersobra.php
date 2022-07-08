@@ -166,7 +166,6 @@ if(!$Query)
 
     if($tipodedata == 0)
     { 
-
         $insert_utilizador = "INSERT INTO `utilizador_non_log` (`Cod_id`, `Nome`, `Email`, `NIF`,
          `Telefone_pess`, `Pessoa-contacto`) VALUES (NULL, '".$datauser[0]."', '".$datauser[2]."', '".$datauser[1]."', '".$datauser[3]."', '".$datauser[4]."')";
         $Query = MySQLi_query($conexao, $insert_utilizador);  
@@ -187,9 +186,10 @@ if(!$Query)
                  (NULL, '$folhadeobranum', '$mensagem','$localizacao',
                   '$montagem[0]', '$montagem[1]', '$montagem[2]', '$status','$codid1', current_timestamp())";
             $Query = MySQLi_query($conexao,  $insertuser);  
-          
+      
                 approval($aprovacao,$folhadeobranum);
                 email($status,$folhadeobranum,$comentario);
+               
                 echo '<script>  var currentURL =
                 window.location.protocol +
                 "//" +
@@ -448,17 +448,42 @@ $titulo = "Folha de obra(aprovar) - $nomecliente";
 
 while ($result = $query->fetch_array())
 {
-    
+    $cod_id1 = isset($_SESSION["Cod_id"])==TRUE?$_SESSION["Cod_id"]:$_COOKIE["Cod_id"];
     $conteudo = "<h1>Olá ".$result["Nome"].",<h1> <br>
     <h2> Como parte do $status, tens de aprovar uma folha de obra do cliente $nomecliente . <br><a href='".$link."'>Folha de obra $codid</a>";
-   $conexao->query("INSERT INTO `comentarios` (`Codfolha`, `Comentario`, `Coduser`) VALUES ('', 'sadas', '59')");
+    $Insert ="INSERT INTO `comentarios` (`Codfolha`, `Comentario`, `Coduser`) VALUES ('', 'sadas', '59')";
+   $conexao->query("INSERT INTO `comentarios` (`Codfolha`, `Comentario`, `Coduser`) VALUES ('$codid', '$comentario', ' $cod_id1')");
     $comentario =  trim($comentario)!=""?
    " <br> Comentário de ".$_SESSION["Nome"].": <br> $comentario </h2>":"";
    $conteudo.=$comentario;
      $emailrecipiente =$result["Email"];
-
  echo  send_email($emailrecipiente,$titulo, $conteudo);
 }
 
+}
+function update_delete($selectedindex,$tipodedata,$tarefa)
+{
+    
+    include ("../databasestart.php");
+    $tabela = $tipodedata == 0?"utilizador_non_log":"utilizador_bd";
+if($tarefa =="update")
+{
+$update = "UPDATE `utilizador_non_log` SET `Nome` = '$selectedindex[1]', `Email` = '$selectedindex[2]', `NIF` = '$selectedindex[3]', `Telefone_pess` = '$selectedindex[4]', `Pessoa-contacto` = '$selectedindex[5]' WHERE `utilizador_non_log`.`Cod_id` = '$selectedindex[0]'";
+$result = $conexao->query($update);
+
+if($result)
+{
+    return 1;
+}
+}
+if($tarefa ="delete")
+{
+$delete = "DELETE FROM `utilizador_non_log` WHERE `Cod_id` = '$selectedindex[0]'";
+$result = $conexao->query($delete);
+if($result)
+{
+    return 1;
+}
+}
 }
    ?>

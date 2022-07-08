@@ -35,12 +35,16 @@ let aprrov = function (nivel) {
     $(".editbtn").removeClass("cross").text("Editar");
     $(".editbtn").click(function () {
       if ($(this).hasClass("cross") == false) {
-        $(".parts_obra:not(.parts_obra:eq(0)) input,textarea")
+        $(
+          ".parts_obra:not(.parts_obra:eq(4)):not(.parts_obra:eq(0)) .txtobra,.parts_obra:not(.parts_obra:eq(4)):not(.parts_obra:eq(0)) input"
+        )
           .prop("readonly", false)
           .css("color", "white");
         $(this).addClass("cross").html("<span></span><span></span>");
       } else {
-        $(".parts_obra:not(.parts_obra:eq(0)) input,textarea")
+        $(
+          ".parts_obra:not(.parts_obra:eq(4)):not(.parts_obra:eq(0)) .txtobra,.parts_obra:not(.parts_obra:eq(4)):not(.parts_obra:eq(0)) input"
+        )
           .prop("readonly", true)
           .css("color", "#ffffffad");
         $(this).removeClass("cross").text("Editar");
@@ -117,7 +121,7 @@ let aprrov = function (nivel) {
         });
       },
     });
-
+    $(".submitobra").off();
     $(".submitobra").click(function () {
       mudarestado($(".nivel option:selected").text(), selectedindex[0]);
     });
@@ -164,9 +168,12 @@ let aprrov = function (nivel) {
   };
   function mudarestado(value, selectedindex) {
     array = [];
-    $(".parts_obra:not(.parts_obra:eq(0)) input,textarea").each(function () {
+    $(
+      ".parts_obra:not(.parts_obra:eq(4)):not(.parts_obra:eq(0)) .txtobra,.parts_obra:not(.parts_obra:eq(4)):not(.parts_obra:eq(0)) input"
+    ).each(function () {
       array.push($(this).val());
     });
+
     $.ajax({
       type: "POST",
       url: "folhadeobra/do_folhadetrabalho.php",
@@ -177,9 +184,9 @@ let aprrov = function (nivel) {
         nivel: value,
         edit_quest: $(".editbtn").hasClass("cross") == true ? 1 : 2,
         edit: array,
+        comentario: $(".txtobra:eq(2)").val(),
       },
       success: function (html) {
-        console.log(html);
         if (html == 1) {
           $("input[type='text'], textarea").val("");
           $(".label-row").text("");
@@ -190,7 +197,9 @@ let aprrov = function (nivel) {
           $(".flex_total").css("display", "none");
           alert("Enviado");
         } else {
+          event.stopImmediatePropagation();
           alert("erro a enviar");
+          event.preventDefault();
         }
       },
     });
@@ -283,21 +292,26 @@ let aprrov = function (nivel) {
     }
   }
   this.getid = function () {
-    $.ajax({
-      type: "POST",
-      url: "folhadeobra/do_folhadetrabalho.php",
-      dataType: "json",
-      data: {
-        request: "getfolhanivel",
-        text: GetURLParameter("codfolha"),
-        gotic: 1,
-      },
-      success: function (html) {
-        const index = html;
-        approv.definitions(index[0]);
-        approv.indexclickfunction(index[0]);
-      },
-    });
+    if (
+      GetURLParameter("codfolha") != "" &&
+      typeof GetURLParameter("codfolha") !== "undefined"
+    ) {
+      $.ajax({
+        type: "POST",
+        url: "folhadeobra/do_folhadetrabalho.php",
+        dataType: "json",
+        data: {
+          request: "getfolhanivel",
+          text: GetURLParameter("codfolha"),
+          gotic: 1,
+        },
+        success: function (html) {
+          const index = html;
+          approv.definitions(index[0]);
+          approv.indexclickfunction(index[0]);
+        },
+      });
+    }
   };
   this.options = function () {
     const option = [
@@ -355,11 +369,6 @@ let method = new aprrov();
 method.getid();
 method.options();
 method.folhas();
-$(document).ready(function () {
-  let method = new aprrov();
-  method.options();
-  method.folhas();
-});
 $("select.category.input_appeareance:eq(0)").change(function () {
   method.user(this.value);
   method.folhas();
@@ -368,8 +377,6 @@ $(".input_pld").on("input", function () {
   method.folhas();
 });
 
-/*interval = setInterval(() => {
+const intervalds = setInterval(() => {
   method.folhas();
 }, 5000);
-intervals.push(interval);
-*/

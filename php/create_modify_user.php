@@ -53,13 +53,10 @@
                 </div>
             </div>
             <div class="userdata_bg" style="gap: 1rem;">
+
                 <div class="flex_userdata_group">
                     <div class="userdata_group"><label for="">Codigo de utilizador</label> <input type="text"
                             name="nome" readonly=""></div>
-                </div>
-                <div class="flex_userdata_group">
-                    <div class="userdata_group"><label for="">Tipo de data</label> <input type="text" name="Codigo"
-                            readonly=""></div>
                     <div class="userdata_group"> <label for="">Nome</label> <input type="text" name="nome" readonly="">
                     </div>
 
@@ -78,7 +75,11 @@
                     <div class="userdata_group"> <label for="">Pessoa-contacto</label> <input type="text"
                             name="Contacto" readonly=""></div>
                 </div>
-
+                <div class='flex' style="gap:1rem">
+                    <div class="editbtn salvar" style='display:none'>Salvar </div>
+                    <div class="editbtn edit">Editar <span></span><span></span></div>
+                    <div class="editbtn remover" style="background:red;">Remover</div>
+                </div>
             </div>
 </body>
 
@@ -107,7 +108,7 @@ let users = function() {
         }
         if (errors.length == 0) {
             var array = [];
-            console.log(array);
+
             $(".userdata#1 input").each(function() {
                 array.push($(this).val());
             });
@@ -158,7 +159,7 @@ let users = function() {
         })
 
     }
-
+    this.selectedindex = [];
     this.validarnif = function(value) {
         const nif = typeof value === "string" ? value : value.toString();
         const validationSets = {
@@ -197,18 +198,112 @@ let users = function() {
         const checkDigit = modulo11 < 2 ? 0 : 11 - modulo11;
         return checkDigit === Number(nif[8]);
     }
+    this.indexclickfunction = function(index) {
+        users_log.selectedindex = index;
+        const link = `codid=${users_log.selectedindex[0]}`;
+        var currentURL =
+            window.location.protocol +
+            "//" +
+            window.location.host +
+            window.location.pathname +
+            `?metodo=user&${link}`;
+        window.history.pushState({
+                path: currentURL,
+            },
+            "",
+            currentURL
+        );
+        users_log.selectedindex.map(function(obj, index) {
+            $(".userdata_bg input").eq(index).val(obj)
+        });
+        $(".flex").css("display", "flex");
+        $(".editbtn.remover").off();
+        $(".editbtn.remover").click(function() {
+            $.ajax({
+                type: "POST",
+                url: "folhadeobra/do_folhadetrabalho.php",
+                //     dataType: "json",
+                data: {
+                    request: "updatenonlog",
+                    selectedindex: users_log.selectedindex,
+                    tipo_conta: 0,
+                    tarefa: "delete"
+                },
+                success: function(html) {
+                    if (html == 1) {
+                        users_log.removdefin();
+                    }
+                }
+            });
+        });
+        $(".editbtn.edit").off();
+        $(".editbtn.edit").click(function() {
 
+            if ($(".editbtn.edit").hasClass("cross") == true) {
+                users_log.selectedindex.map(function(obj, index) {
+                    $(".userdata_bg input").eq(index).val(obj)
+                });
+                $(".userdata_bg input:not(input:eq(0))").prop("readonly", true);
+                $(".editbtn.edit")
+                    .removeClass(
+                        "cross").html("Editar");
+                $(".editbtn.salvar")
+                    .css("display", "none");
+            } else {
+                $(".editbtn.edit").html("<span></span><span></span>")
+                    .addClass("cross");
+                $(".editbtn.salvar")
+                    .css("display", "flex");
+
+                $(".userdata_bg input:not(input:eq(0))").prop("readonly", false);
+                $(".editbtn.salvar").off();
+                $(".editbtn.salvar").click(function() {
+                    $.ajax({
+                        type: "POST",
+                        url: "folhadeobra/do_folhadetrabalho.php",
+                        //     dataType: "json",
+                        data: {
+                            request: "updatenonlog",
+                            selectedindex: users_log.selectedindex,
+                            tipo_conta: 0,
+                            tarefa: "update"
+                        },
+                        success: function(html) {
+                            console.log(html);
+                            if (html == 1) {
+                                users_log.removdefin();
+                            }
+                        }
+                    });
+                });
+            }
+        });
+    }
+    this.removdefin = function() {
+        users_log.selectedindex = [];
+        $(".userdata_bg input").val("");
+        users_log.search();
+        console.log(users_log.selectedindex);
+        $(".editbtn.salvar").off();
+        $(".editbtn.edit").html("<span></span><span></span>")
+            .addClass("cross");
+        $(".editbtn.edit").off();
+        $(".editbtn.remover")
+        $(".flex").css("display", "none");
+    }
     this.search = function() {
         $.ajax({
             type: "POST",
             url: "folhadeobra/do_folhadetrabalho.php",
             dataType: "json",
             data: {
-                request: "getfolhanivel",
+                request: "getuserespifico",
                 text: $(".input_appeareance:eq(1)").val(),
                 select: $(".category.input_appeareance").val(),
+                tb: 1,
             },
             success: function(html) {
+
                 $("tbody").html("");
                 $(html).each(function(index) {
                     $("tbody").append("<tr></tr>");
@@ -221,19 +316,50 @@ let users = function() {
                     });
                     var current = this;
                     $("tbody>tr:last-child").click(function() {
-
+                        dados.indexclickfunction(current);
                     });
                 });
             },
         });
     };
 }
-const dados = new users;
-$(".userdata input:eq(4)").mask("000 000 000");
-$(".userdata input:eq(3)").mask("000 000 000");
-$(".userdata input:eq(1)").mask("000000000");
+
+const dados = new users();
 dados.search();
-$(".btn-criar").click(function() {
-    dados.erros();
+
+$(window).on("load", function() {
+    dados.search();
+    clickerros()
+    $(".userdata input:eq(3)").mask("000 000 000");
+    $(".userdata input:eq(4)").mask("000 000 000");
+    $(".userdata input:eq(1)").mask("000000000");
+});
+$(".userdata input:eq(3)").mask("000 000 000");
+$(".userdata input:eq(4)").mask("000 000 000");
+$(".userdata input:eq(1)").mask("000000000");
+$(".category.input_appeareance").on("change", function() {
+    dados.search();
 })
+$(".input_appeareance.input_pld").on("input", function() {
+    dados.search();
+})
+setInterval(() => {
+    dados.search()
+
+}, 15000);
+$(".btn-criar").off();
+clickerros()
+
+function clickerros() {
+    $(".btn-criar").off();
+    $(".btn-criar").click(function() {
+        dados.erros();
+    });
+    $('.userdata:eq(0) input').off();
+    $('.userdata:eq(0) input').on("keypress", function() {
+        if (e.which == 13) {
+            dados.erros();
+        }
+    });
+}
 </script>

@@ -26,7 +26,13 @@ $(window).on("load", function () {
       success: function (html) {
         console.log(html);
         if (html == 2 || html == 0) {
-          $(".submit").click();
+          $("input[type='submit']").length == 0
+            ? $("form").append("<input type='submit' style='display:none'>")
+            : "";
+          $("input[type='submit']").click();
+          $("input[type='submit']").remove();
+        } else {
+          alert("Email já existe");
         }
       },
     });

@@ -8,7 +8,6 @@ $.ajax({
     request: requesttype,
   },
   success: function (html) {
-    console.log(html);
     $(html).each(function () {
       $(".aprovalref").append(
         ' <div class="flex-approv"><div class="text-appro">' +
@@ -281,13 +280,16 @@ $(".submitobra").click(function () {
     var loc = $(" .txtobra:eq(1)").val();
     if ($("#1.userdata").length) {
       tipodeuser = 0;
-      $(".userdata input").each(function () {
+      $(".userdata input").each(function (obj, index) {
         userdata.push($(this).val());
       });
+      userdata[4] = userdata[4].replace(/\s/g, "");
+      userdata[3] = userdata[3].replace(/\s/g, "");
     } else {
       tipodeuser = 1;
       userdata = selecteduser;
     }
+
     requesttype = "create";
     $.ajax({
       type: "POST",
@@ -301,10 +303,11 @@ $(".submitobra").click(function () {
         loc: loc,
         approv: approv,
         status: selectedstatus,
+        comentario: $(" .txtobra:eq(2)").val(),
       },
       success: function (html) {
         console.log(html);
-        $(".folha_de_obra").append(html);
+        $(".aprovalref").append(html);
       },
     });
   }

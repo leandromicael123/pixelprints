@@ -97,7 +97,10 @@
             <div class="subtitulo_obra">Localização de ficheiros</div>
             <textarea name="" cols="10" class='txtobra' placeholder="Escrever aqui" rows="10"></textarea>
         </div>
-
+        <div class="parts_obra">
+            <div class="subtitulo_obra">Comentário</div>
+            <textarea name="" cols="10" class="txtobra" placeholder="Escrever aqui" rows="10"></textarea>
+        </div>
         <div class="flex_total" style="display:none">
             <div class="flex" style='align-items: center;
     justify-content: center;'>
@@ -112,8 +115,6 @@
                 <select name="" id="" class="nivel"></select>
             </div>
             <div class="flex" style='align-items: center;'> <button class="btnaprovar">Não aprovado</button>
-                <textarea name="" cols="10" class="txtobra" placeholder="Escrever aqui" rows="10"></textarea>
-                <div class="subtitulo_obra">Comentário</div>
                 <input type="submit" class="submitobra">
             </div>
         </div>
@@ -124,7 +125,8 @@
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.0/jquery.mask.js"></script>
 <script>
-$(".parts_obra:not(.parts_obra:eq(0)) input,textarea").prop("readonly", true).css("color", "#ffffffad");
+$(".parts_obra:not(.parts_obra:eq(4)):not(.parts_obra:eq(0)) .txtobra,.parts_obra:not(.parts_obra:eq(4)):not(.parts_obra:eq(0)) input")
+    .prop("readonly", true).css("color", "#ffffffad");
 $(".userdata_bg input").css("text-align", "center")
 </script>
 <script src="../Jquery/approval.js"></script>

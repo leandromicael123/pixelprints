@@ -68,10 +68,11 @@ let intervals = [];
 
 function getparameter(method) {
     $(".big-col").removeClass("Selected-big-col");
-    intervals.forEach(function(item, index, array) {
-        clearInterval(item);
-    })
-
+    var id = window.setInterval(function() {}, 0);
+    while (id--) {
+        window.clearInterval(id);
+    }
+    console.log(intervals);
 
     switch (method) {
         case "criar":

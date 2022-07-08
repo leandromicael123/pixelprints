@@ -52,5 +52,8 @@ echo niveluseruser();
                                         case "getuserespifico":
                                           echo userspesquisaespecifica($_POST["select"],$_POST["text"],$_POST["tb"]);
                                           break;
+                                          case "updatenonlog":
+                                            echo  update_delete($_POST["selectedindex"], $_POST["tipo_conta"], $_POST["tarefa"]);
+                                            break;
 }
 ?>
